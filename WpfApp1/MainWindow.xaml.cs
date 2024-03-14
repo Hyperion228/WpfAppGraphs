@@ -22,7 +22,9 @@ namespace WpfApp1
         private int rowCount = 2;
         private int columnCount = 2;
         private List<List<int>> adjacencyMatrix;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public MainWindow()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             InitializeComponent();
             PopulateMatrix();
@@ -377,6 +379,67 @@ namespace WpfApp1
 
             // Добавление текущей вершины в результат только после обработки всех соседей
             topologicalOrder.Add(node);
+        }
+        //дейкстры алгоритм
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            adjacencyMatrix = GetMatrixValues();
+
+            // Выбор начальной вершины
+            int startNode = 0; // Ваша начальная вершина
+
+            // Список для хранения кратчайших расстояний до каждой вершины
+            List<int> distances = Enumerable.Repeat(int.MaxValue, adjacencyMatrix.Count).ToList();
+
+            // Массив, хранящий информацию о том, посещена ли вершина
+            bool[] visited = new bool[adjacencyMatrix.Count];
+
+            // Начальная вершина имеет расстояние 0
+            distances[startNode] = 0;
+
+            // Алгоритм Дейкстры
+            for (int count = 0; count < adjacencyMatrix.Count - 1; count++)
+            {
+                // Выбираем вершину с минимальным расстоянием из непосещенных вершин
+                int u = MinimumDistanceVertex(distances, visited);
+
+                // Помечаем вершину как посещенную
+                visited[u] = true;
+
+                // Обновляем расстояния до всех вершин через текущую вершину
+                for (int v = 0; v < adjacencyMatrix.Count; v++)
+                {
+                    if (!visited[v] && adjacencyMatrix[u][v] != 0 && distances[u] != int.MaxValue &&
+                        distances[u] + adjacencyMatrix[u][v] < distances[v])
+                    {
+                        distances[v] = distances[u] + adjacencyMatrix[u][v];
+                    }
+                }
+            }
+
+            // Вывод результатов алгоритма Дейкстры в MessageBox
+            string result = "Результат алгоритма Дейкстры:" + Environment.NewLine;
+            for (int i = 0; i < distances.Count; i++)
+            {
+                result += $"Расстояние от вершины {startNode} до вершины {i}: {distances[i]}" + Environment.NewLine;
+            }
+
+            MessageBox.Show(result);
+        }
+        private int MinimumDistanceVertex(List<int> distances, bool[] visited)
+        {
+            int min = int.MaxValue, minIndex = -1;
+
+            for (int v = 0; v < distances.Count; v++)
+            {
+                if (visited[v] == false && distances[v] <= min)
+                {
+                    min = distances[v];
+                    minIndex = v;
+                }
+            }
+
+            return minIndex;
         }
     }
 }
