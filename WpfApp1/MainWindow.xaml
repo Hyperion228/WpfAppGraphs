@@ -18,6 +18,7 @@
         <Grid Grid.Row="1" Name="matrixGrid">
             <!-- Placeholder for dynamic matrix -->
         </Grid>
+        <Button Content="Алгоритм флойда" Click="Button_Click_9" HorizontalAlignment="Left" Margin="303,119,0,0" VerticalAlignment="Top" Height="28"/>
         <Button Content="Раскраска графа" Click="Button_Click_8" HorizontalAlignment="Left" Margin="423,147,0,0" VerticalAlignment="Top" Height="28"/>
         <Button Content="Алгоритм дейкстры" Click="Button_Click_7" HorizontalAlignment="Left" Margin="303,152,0,0" VerticalAlignment="Top" Height="28"/>
         <Button Content="Топологическая сортировка" Click="Button_Click_6" HorizontalAlignment="Left" Margin="303,188,0,0" VerticalAlignment="Top" Height="29"/>

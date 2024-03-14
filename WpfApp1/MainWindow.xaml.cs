@@ -502,5 +502,51 @@ namespace WpfApp1
             // Если мы успешно обошли все вершины и не нашли противоречий, то граф можно раскрасить в два цвета
             return true;
         }
+        //флойлда алгоритм
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            adjacencyMatrix = GetMatrixValues();
+
+            int vertexCount = adjacencyMatrix.Count;
+
+            // Создаем матрицу расстояний и инициализируем ее значениями из матрицы смежности
+            int[,] distances = new int[vertexCount, vertexCount];
+            for (int i = 0; i < vertexCount; i++)
+            {
+                for (int j = 0; j < vertexCount; j++)
+                {
+                    distances[i, j] = adjacencyMatrix[i][j];
+                }
+            }
+
+            // Алгоритм Флойда-Уоршелла
+            for (int k = 0; k < vertexCount; k++)
+            {
+                for (int i = 0; i < vertexCount; i++)
+                {
+                    for (int j = 0; j < vertexCount; j++)
+                    {
+                        if (distances[i, k] != int.MaxValue && distances[k, j] != int.MaxValue &&
+                            distances[i, k] + distances[k, j] < distances[i, j])
+                        {
+                            distances[i, j] = distances[i, k] + distances[k, j];
+                        }
+                    }
+                }
+            }
+
+            // Вывод результатов алгоритма Флойда-Уоршелла в MessageBox
+            string result = "Результат алгоритма Флойда-Уоршелла:" + Environment.NewLine;
+            for (int i = 0; i < vertexCount; i++)
+            {
+                for (int j = 0; j < vertexCount; j++)
+                {
+                    result += $"{distances[i, j]}\t";
+                }
+                result += Environment.NewLine;
+            }
+
+            MessageBox.Show(result);
+        }
     }
 }
