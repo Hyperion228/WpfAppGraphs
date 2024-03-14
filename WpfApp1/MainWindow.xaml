@@ -1,0 +1,25 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Background="AntiqueWhite">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Content="Add Row" Click="Button_Click_2"/>
+            <Button Content="Add Column" Click="Button_Click_3"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Name="matrixGrid">
+            <!-- Placeholder for dynamic matrix -->
+        </Grid>
+        <Button Content="Сохранить в файл" Click="Button_Click" HorizontalAlignment="Left" Margin="301,274,0,0" VerticalAlignment="Top" Height="29"/>
+        <Button Content="Открыть файл" Click="Button_Click_1" HorizontalAlignment="Left" Margin="423,274,0,0" VerticalAlignment="Top" Height="29"/>
+
+    </Grid>
+</Window>
