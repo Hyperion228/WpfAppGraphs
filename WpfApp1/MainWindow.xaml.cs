@@ -331,5 +331,52 @@ namespace WpfApp1
             // Вывод результатов обхода в MessageBox
             MessageBox.Show("Результат обхода в ширину: " + string.Join(", ", traversalResult));
         }
+        //topologic sort
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            // Преобразование матрицы в граф
+            adjacencyMatrix = GetMatrixValues();
+
+            // Список для хранения результата топологической сортировки
+            List<int> topologicalOrder = new List<int>();
+
+            // Список для хранения посещенных вершин
+            List<bool> visited = Enumerable.Repeat(false, adjacencyMatrix.Count).ToList();
+
+            // Выполнение топологической сортировки для каждой вершины, если она еще не была посещена
+            for (int i = 0; i < adjacencyMatrix.Count; i++)
+            {
+                if (!visited[i])
+                {
+                    TopologicalSortUtil(i, visited, topologicalOrder);
+                }
+            }
+
+            // Переворачиваем результат, так как алгоритм добавляет вершины в обратном порядке
+            topologicalOrder.Reverse();
+
+            // Вывод результатов топологической сортировки в MessageBox
+            MessageBox.Show("Результат топологической сортировки: " + string.Join(", ", topologicalOrder));
+        }
+
+        private void TopologicalSortUtil(int node, List<bool> visited, List<int> topologicalOrder)
+        {
+            visited[node] = true;
+
+            // Получение соседей текущей вершины
+            List<int> neighbors = GetNeighbors(node);
+
+            // Рекурсивный обход соседей
+            foreach (int neighbor in neighbors)
+            {
+                if (!visited[neighbor])
+                {
+                    TopologicalSortUtil(neighbor, visited, topologicalOrder);
+                }
+            }
+
+            // Добавление текущей вершины в результат только после обработки всех соседей
+            topologicalOrder.Add(node);
+        }
     }
 }
