@@ -441,5 +441,66 @@ namespace WpfApp1
 
             return minIndex;
         }
+        //раскраска графа
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            adjacencyMatrix = GetMatrixValues();
+
+            // Создаем массив для хранения цветов вершин
+            // Инициализируем все цвета как 0 (неопределенный)
+            int[] colors = new int[adjacencyMatrix.Count];
+
+            // Начинаем с произвольной вершины графа
+            int startNode = 0;
+
+            // Вызываем рекурсивную функцию для раскраски графа в два цвета
+            bool isBipartite = TwoColoringUtil(startNode, colors);
+
+            // Выводим результат в MessageBox
+            if (isBipartite)
+            {
+                MessageBox.Show("Граф можно раскрасить в два цвета.");
+            }
+            else
+            {
+                MessageBox.Show("Граф нельзя раскрасить в два цвета.");
+            }
+        }
+        private bool TwoColoringUtil(int node, int[] colors)
+        {
+            // Мы будем раскрашивать текущую вершину в цвет 1
+            colors[node] = 1;
+
+            // Создаем очередь для обхода графа
+            Queue<int> queue = new Queue<int>();
+            queue.Enqueue(node);
+
+            while (queue.Count > 0)
+            {
+                int currentNode = queue.Dequeue();
+
+                // Получаем соседей текущей вершины
+                List<int> neighbors = GetNeighbors(currentNode);
+
+                // Перебираем соседей
+                foreach (int neighbor in neighbors)
+                {
+                    // Если сосед еще не раскрашен, раскрашиваем его в противоположный цвет
+                    if (colors[neighbor] == 0)
+                    {
+                        colors[neighbor] = -colors[currentNode]; // Противоположный цвет
+                        queue.Enqueue(neighbor);
+                    }
+                    // Если сосед уже раскрашен в тот же цвет, что и текущая вершина, граф нельзя раскрасить в два цвета
+                    else if (colors[neighbor] == colors[currentNode])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // Если мы успешно обошли все вершины и не нашли противоречий, то граф можно раскрасить в два цвета
+            return true;
+        }
     }
 }
