@@ -18,6 +18,8 @@
         <Grid Grid.Row="1" Name="matrixGrid">
             <!-- Placeholder for dynamic matrix -->
         </Grid>
+        <Button Content="Обход в ширину" Click="Button_Click_5" HorizontalAlignment="Left" Margin="416,228,0,0" VerticalAlignment="Top" Height="29"/>
+        <Button Content="Обход в глубину" Click="Button_Click_4" HorizontalAlignment="Left" Margin="301,228,0,0" VerticalAlignment="Top" Height="29"/>
         <Button Content="Сохранить в файл" Click="Button_Click" HorizontalAlignment="Left" Margin="301,274,0,0" VerticalAlignment="Top" Height="29"/>
         <Button Content="Открыть файл" Click="Button_Click_1" HorizontalAlignment="Left" Margin="423,274,0,0" VerticalAlignment="Top" Height="29"/>
 

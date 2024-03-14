@@ -21,6 +21,7 @@ namespace WpfApp1
     {
         private int rowCount = 2;
         private int columnCount = 2;
+        private List<List<int>> adjacencyMatrix;
         public MainWindow()
         {
             InitializeComponent();
@@ -227,6 +228,108 @@ namespace WpfApp1
                 }
             }
             return true;
+        }
+        //обход в глубину
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            // Преобразование матрицы в граф
+            adjacencyMatrix = GetMatrixValues();
+
+            // Выбор начальной вершины (узла) для обхода
+            int startNode = 0; // Например, начнем с вершины 0
+
+            // Список для хранения посещенных вершин
+            List<bool> visited = Enumerable.Repeat(false, adjacencyMatrix.Count).ToList();
+
+            // Список для хранения результатов обхода
+            List<int> traversalResult = new List<int>();
+
+            // Вызов рекурсивной функции для обхода в глубину
+            DFS(startNode, visited, traversalResult);
+
+            // Вывод результатов обхода в MessageBox
+            MessageBox.Show("Результат обхода в глубину: " + string.Join(", ", traversalResult));
+        }
+    
+    private void DFS(int node, List<bool> visited, List<int> traversalResult)
+    {
+        // Посетите текущую вершину и пометьте ее как посещенную
+        visited[node] = true;
+
+        // Добавьте вершину в список результатов обхода
+        traversalResult.Add(node);
+
+        // Получите соседей текущей вершины
+        List<int> neighbors = GetNeighbors(node);
+
+        // Рекурсивно посетите непосещенных соседей
+        foreach (int neighbor in neighbors)
+        {
+            if (!visited[neighbor])
+            {
+                DFS(neighbor, visited, traversalResult);
+            }
+        }
+    }
+
+    private List<int> GetNeighbors(int node)
+        {
+            List<int> neighbors = new List<int>();
+
+            for (int i = 0; i < adjacencyMatrix[node].Count; i++)
+            {
+                if (adjacencyMatrix[node][i] != 0) // Вершина связана с текущей, если значение не равно 0
+                {
+                    neighbors.Add(i);
+                }
+            }
+
+            return neighbors;
+        }
+        //обход в ширину
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            // Преобразование матрицы в граф
+            adjacencyMatrix = GetMatrixValues();
+
+            // Выбор начальной вершины (узла) для обхода
+            int startNode = 0; // Например, начнем с вершины 0
+
+            // Список для хранения посещенных вершин
+            List<bool> visited = Enumerable.Repeat(false, adjacencyMatrix.Count).ToList();
+
+            // Список для хранения результатов обхода
+            List<int> traversalResult = new List<int>();
+
+            // Создание очереди для обхода в ширину
+            Queue<int> queue = new Queue<int>();
+
+            // Поместите начальную вершину в очередь и отметьте ее как посещенную
+            queue.Enqueue(startNode);
+            visited[startNode] = true;
+
+            // Обход в ширину
+            while (queue.Count > 0)
+            {
+                int currentNode = queue.Dequeue();
+                traversalResult.Add(currentNode);
+
+                // Получение соседей текущей вершины
+                List<int> neighbors = GetNeighbors(currentNode);
+
+                // Добавление непосещенных соседей в очередь и пометка их как посещенные
+                foreach (int neighbor in neighbors)
+                {
+                    if (!visited[neighbor])
+                    {
+                        queue.Enqueue(neighbor);
+                        visited[neighbor] = true;
+                    }
+                }
+            }
+
+            // Вывод результатов обхода в MessageBox
+            MessageBox.Show("Результат обхода в ширину: " + string.Join(", ", traversalResult));
         }
     }
 }
